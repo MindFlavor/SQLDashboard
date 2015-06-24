@@ -1,0 +1,32 @@
+﻿<div ng-app="app">
+    <div ng-controller="SQLServerController as sqlServerctrl">
+        <table class="table-striped">
+            <tr>
+                <th></th>
+                <th>Instance name</th>
+            </tr>
+            <tr ng-repeat="sql in sqlServerctrl.sqlServers" ng-controller="SQLServerDetailController as sqlDetailctrl" ng-init="sqlDetailctrl.setID(sql.GUID)">
+                <td>
+                    <img src="~/images/working.gif" ng-show="sqlDetailctrl.summary === null"
+                         data-toggle="tooltip"
+                         tooltip="Contacting instance..."
+                         tooltip-placement="right" />
+                    <img src="~/images/accept.png" ng-show="sqlDetailctrl.summary.Number === 0" />
+                    <img src="~/images/network_offline.png"
+                         ng-show="sqlDetailctrl.summary.Number === -1"
+                         data-toggle="tooltip"
+                         tooltip="{{sqlDetailctrl.summary.Entity}}"
+                         tooltip-placement="right" />
+                    <img src="~/images/warning.png" ng-show="sqlDetailctrl.summary.Number > 0" />
+                </td>
+
+                <td ng-hide="sqlDetailctrl.summary.Number === 0">
+                    {{sql.DataSource}}
+                </td>
+                <td ng-show="sqlDetailctrl.summary.Number === 0">
+                    <a href="~/mssql/{{sql.GUID}}">{{sql.DataSource}}</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

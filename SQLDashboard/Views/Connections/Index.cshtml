@@ -1,0 +1,20 @@
+﻿<div ng-app="connections">
+    <h2>Connection string management</h2>
+    <div ng-controller="ConnectionController as conCtrl">
+        <div>
+            Input a connection string: 
+            <input ng-model="connectionStringToAdd" />
+            <button ng-click="conCtrl.addConnectionString(conCtrl, connectionStringToAdd)">Add</button>
+        </div>
+        <table class="table-striped">
+            <tr>
+                <th>Action</th>
+                <th>Connection string</th>
+            </tr>
+            <tr ng-repeat="connStr in conCtrl.connectionStrings">
+                <td><button ng-click="conCtrl.deleteConnectionString(conCtrl, connStr.GUID)">Delete</button></td>
+               <td>{{connStr.Entity}}</td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,178 @@
+﻿<div ng-app="sql">
+    <div ng-controller="SQLServerController as sqlServerctrl" ng-init="sqlServerctrl.setGuid($window.location.href)">
+        <h3>{{sqlServerctrl.connectionString.DataSource}}</h3>
+
+        <ul class="nav nav-pills">
+            <li ng-class="{ active: sqlServerctrl.isSelected(1) }"><a ng-click="sqlServerctrl.setTab(1)">Buffer pool map</a></li>
+            <li ng-class="{ active: sqlServerctrl.isSelected(2) }"><a ng-click="sqlServerctrl.setTab(2)">Plan cache map</a></li>
+            <li ng-class="{ active: sqlServerctrl.isSelected(3) }"><a ng-click="sqlServerctrl.setTab(3)">Databases</a></li>
+        </ul>
+
+        <div ng-show="sqlServerctrl.isSelected(1)">
+            <div data-ac-chart="'pie'"
+                 data-ac-data="sqlServerctrl.data_bufferPoolSnapshot"
+                 data-ac-config="sqlServerctrl.config_bufferPoolSnapshot"
+                 class="chart">
+            </div>
+            <blockquote>Total buffer pool size {{sqlServerctrl.bufferPoolTotalSizeBytes|Filesize}}.</blockquote>
+        </div>
+        <br />
+
+        <div ng-show="sqlServerctrl.isSelected(2)">
+            <div data-ac-chart="'pie'"
+                 data-ac-data="sqlServerctrl.data_cachedPlanSnapshot"
+                 data-ac-config="sqlServerctrl.config_cachedPlanSnapshot"
+                 class="chart">
+            </div>
+            <blockquote>Total plan cache size {{sqlServerctrl.cachedPlanTotalSizeBytes|Filesize}}.</blockquote>
+        </div>
+        <div ng-show="sqlServerctrl.isSelected(3)">
+            <table class="table-bordered">
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Owner</th>
+                    <th>Created</th>
+                    <th>CL</th>
+                    <th>Collation</th>
+                    <th>User access</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>Rec model</th>
+                </tr>
+                <tr ng-repeat="db in sqlServerctrl.databaseList">
+                    <td>{{db.database_id}}</td>
+                    <td>
+                        <a ng-href="~/database/{{sqlServerctrl.guid}}/{{db.database_id}}">
+                            {{db.DatabaseName}}
+                        </a>
+                    </td>
+                    <td>{{db.OwnerName}}</td>
+                    <td>{{db.create_date | date}}</td>
+                    <td>{{db.compatibility_level}}</td>
+                    <td>{{db.collation_name}}</td>
+                    <td>{{db.user_access_desc}}</td>
+
+                    <td>
+                        <img ng-show="db.is_read_only"
+                             src="~/images/readonly.png"
+                             data-toggle="tooltip"
+                             tooltip="Read only database"
+                             tooltip-placement="top" />
+                        <img ng-hide="db.is_read_only"
+                             src="~/images/readwrite.png"
+                             data-toggle="tooltip"
+                             tooltip="Read/write database"
+                             tooltip-placement="top" />
+                    </td>
+
+                    <td>
+                        <img ng-show="db.is_auto_close_on"
+                             src="~/images/warning.png"
+                             data-toggle="tooltip"
+                             tooltip="Auto close is enabled for this database!"
+                             tooltip-placement="top" />
+                        <img ng-hide="db.is_auto_close_on"
+                             src="~/images/ok.png"
+                             data-toggle="tooltip"
+                             tooltip="Auto close disabled"
+                             tooltip-placement="top" />
+                    </td>
+
+                    <td>
+                        <img ng-show="db.is_auto_shrink_on"
+                             src="~/images/warning.png"
+                             data-toggle="tooltip"
+                             tooltip="Auto shrink is enabled for this database!"
+                             tooltip-placement="top" />
+                        <img ng-hide="db.is_auto_shrink_on"
+                             src="~/images/ok.png"
+                             data-toggle="tooltip"
+                             tooltip="Auto shrink disabled"
+                             tooltip-placement="top" />
+                    </td>
+
+                    <td>
+                        <img ng-show="db.state_desc === 'ONLINE'"
+                             src="~/images/state_desc/online.png"
+                             data-toggle="tooltip"
+                             tooltip="Online"
+                             tooltip-placement="top" />
+                        <img ng-show="db.state_desc === 'RESTORING'"
+                             src="~/images/state_desc/restoring.jpg"
+                             data-toggle="tooltip"
+                             tooltip="Restoring..."
+                             tooltip-placement="top" />
+                        <img ng-show="db.state_desc === 'RECOVERING'"
+                             src="~/images/state_desc/recovering.gif"
+                             data-toggle="tooltip"
+                             tooltip="Recovering..."
+                             tooltip-placement="top" />
+                        <img ng-show="db.state_desc === 'RECOVERY_PENDING'"
+                             src="~/images/state_desc/recovery_pending.jpg"
+                             data-toggle="tooltip"
+                             tooltip="Recovery pending"
+                             tooltip-placement="top" />
+                        <img ng-show="db.state_desc === 'SUSPECT'"
+                             src="~/images/state_desc/suspect.png"
+                             data-toggle="tooltip"
+                             tooltip="Suspect"
+                             tooltip-placement="top" />
+                        <img ng-show="db.state_desc === 'EMERGENCY'"
+                             src="~/images/state_desc/emergency.png"
+                             data-toggle="tooltip"
+                             tooltip="Emergency"
+                             tooltip-placement="top" />
+                        <img ng-show="db.state_desc === 'OFFLINE'"
+                             src="~/images/state_desc/offline.png"
+                             data-toggle="tooltip"
+                             tooltip="Offline"
+                             tooltip-placement="top" />
+                        <img ng-show="db.state_desc === 'COPYING'"
+                             src="~/images/state_desc/copying.png"
+                             data-toggle="tooltip"
+                             tooltip="Copying..."
+                             tooltip-placement="top" />
+                    </td>
+
+                    <td>
+                        <img ng-show="db.is_in_standby"
+                             src="~/images/warning.png"
+                             data-toggle="tooltip"
+                             tooltip="Database in standby"
+                             tooltip-placement="top" />
+                        <img ng-hide="db.is_in_standby"
+                             src="~/images/ok.png"
+                             data-toggle="tooltip"
+                             tooltip="Database not in standby"
+                             tooltip-placement="top" />
+                    </td>
+
+                    <td>
+                        <img ng-show="db.page_verify_option_desc === 'CHECKSUM'"
+                             src="~/images/ok.png"
+                             data-toggle="tooltip"
+                             tooltip="CHECKSUM"
+                             tooltip-placement="top" />
+                        <img ng-show="db.page_verify_option_desc === 'TORN_PAGE_DETECTION'"
+                             src="~/images/warning.png"
+                             data-toggle="tooltip"
+                             tooltip="Torn page detection"
+                             tooltip-placement="top" />
+                        <img ng-show="db.page_verify_option_desc === 'NONE'"
+                             src="~/images/warning.png"
+                             data-toggle="tooltip"
+                             tooltip="None"
+                             tooltip-placement="top" />
+                    </td>
+
+                    <td>{{db.recovery_model_desc}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
