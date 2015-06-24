@@ -26,7 +26,7 @@ Other features are planned and will be added at later time.
 
 ## How to deploy
 
-1. Configure your `web.config` copy specifying your Azure storage connection sting:
+1. Copy the `web.config.example` file as `web.config` and configure it specifying your Azure storage connection sting:
 ```xml
 <configuration>
   <appSettings>
