@@ -253,6 +253,7 @@
     <None Include="Project_Readme.html" />
     <Content Include="Views\Connections\Index.cshtml" />
     <Content Include="Views\mssql\Index.cshtml" />
+    <Content Include="Web.config.example" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SQLDashboard.Azure.Storage\SQLDashboard.Azure.Storage.csproj">

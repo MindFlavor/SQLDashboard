@@ -48,6 +48,12 @@ Other features are planned and will be added at later time.
 </configuration>
 ``` 
 
+## How to use
+As soon as the application starts it will create the required Azure table. It will be empty so you need to go to the `Server management` section and add one (or more) connection strings:
+![](http://i.imgur.com/s8thuw7.png)
+
+Now switch back to SQL Server dashboard (home page) and you should see your instance. If the instance is reachable it will turn green and you will be able to drill down into it.
+
 ## References
 This project relies upon:
 
