@@ -1,4 +1,4 @@
-##Intro
+## Intro
 
 This is a template for a simple SQL Server dashboard. It's written in C# and AngularJS. Main features are:
 - [Azure AD](http://azure.microsoft.com/it-it/services/active-directory/) compatible.
@@ -6,7 +6,7 @@ This is a template for a simple SQL Server dashboard. It's written in C# and Ang
 - Responsive (thanks to [AngularJS](https://angularjs.org/) and [angular-charts](https://github.com/chinmaymk/angular-charts)).
 - Cloud configuration using [Azure table storage](https://msdn.microsoft.com/en-us/magazine/ff796231.aspx).
 
-##Features
+## Features
 Right now it allows you to add/remove connection strings:
 ![](http://i.imgur.com/EEBe2r3.png)
 
@@ -24,7 +24,7 @@ And the db status (from `sys.databases`):
 
 Other features are planned and will be added at later time.
 
-##How to deploy
+## How to deploy
 
 1. Configure your `web.config` copy specifying your Azure storage connection sting:
 ```xml
@@ -48,7 +48,7 @@ Other features are planned and will be added at later time.
 </configuration>
 ``` 
 
-##References
+## References
 This project relies upon:
 
 * Angular directives for creating common charts using d3 ([https://github.com/chinmaymk/angular-charts](https://github.com/chinmaymk/angular-charts)).
